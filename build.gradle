@@ -20,7 +20,7 @@ buildscript
 jar
 //war
 {
-	baseName = 'spring-hello'
+	baseName = 'echo-image'
 	version = '0.1.0'
 }
 

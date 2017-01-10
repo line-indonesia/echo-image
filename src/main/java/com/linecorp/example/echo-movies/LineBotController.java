@@ -1,5 +1,5 @@
 
-package com.linecorp.example.linebot;
+package com.linecorp.example.echo-movies;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -89,11 +89,6 @@ public class LineBotController
             (aXLineSignature!=null && aXLineSignature.length() > 0) ? aXLineSignature : "N/A");
         
         System.out.println(text);
-        System.out.println("Cloudinary Cloud Name: " + cCloudName);
-        System.out.println("Cloudinary API Key: " + cApiKey);
-        System.out.println("Cloudinary API Secret: " + cApiSecret);
-        System.out.println("Channel Secret: " + lChannelSecret);
-        System.out.println("Channel Access Token: " + lChannelAccessToken);
         
         final boolean valid=new LineSignatureValidator(lChannelSecret.getBytes()).validateSignature(aPayload.getBytes(), aXLineSignature);
         
@@ -115,6 +110,7 @@ public class LineBotController
         String idTarget = " ";
         String eventType = payload.events[0].type;
         
+        //Check event's type
         if (eventType.equals("join")){
             if (payload.events[0].source.type.equals("group")){
                 replyToUser(payload.events[0].replyToken, "Hello Group");
@@ -122,7 +118,7 @@ public class LineBotController
             if (payload.events[0].source.type.equals("room")){
                 replyToUser(payload.events[0].replyToken, "Hello Room");
             }
-        } else if (eventType.equals("message")){
+        } else if (eventType.equals("message")){    //Event's type is message
             if (payload.events[0].source.type.equals("group")){
                 idTarget = payload.events[0].source.groupId;
             } else if (payload.events[0].source.type.equals("room")){
@@ -131,10 +127,10 @@ public class LineBotController
                 idTarget = payload.events[0].source.userId;
             }
             
-            //Parsing message from user
+            //Check message's type
             if (!payload.events[0].message.type.equals("text")){
                 upload_url = getUserContent(payload.events[0].message.id, payload.events[0].source.userId);
-                pushPoster(idTarget, upload_url);
+                pushImage(idTarget, upload_url);
             } else {
                 msgText = payload.events[0].message.text;
                 msgText = msgText.toLowerCase();
@@ -154,6 +150,7 @@ public class LineBotController
         return new ResponseEntity<String>(HttpStatus.OK);
     }
     
+    //Method for reply to user's event
     private void replyToUser(String rToken, String messageToUser){
         TextMessage textMessage = new TextMessage(messageToUser);
         ReplyMessage replyMessage = new ReplyMessage(rToken, textMessage);
@@ -170,10 +167,12 @@ public class LineBotController
         }
     }
     
+    //Method for get user's image with LINE Messaging API
     private String getUserContent(String messageId, String source_id){
         Cloudinary cloudinary = new Cloudinary("cloudinary://"+cApiKey+":"+cApiSecret+"@"+cCloudName);
         String uploadURL = " ";
         try {
+            //Get user's image with LINE Messaging API
             Response<ResponseBody> response = LineMessagingServiceBuilder
                 .create(lChannelAccessToken)
                 .build()
@@ -192,9 +191,11 @@ public class LineBotController
                 } catch (Exception e) {
                     System.out.println("Exception is raised ");
                 }
+                //Upload user's image to cloudinary image storage
                 Map uploadResult = cloudinary.uploader().upload(path.toFile(), ObjectUtils.emptyMap());
                 System.out.println(uploadResult.toString());
                 JSONObject jUpload = new JSONObject(uploadResult);
+                //Get image's URL for echoing back to user
                 uploadURL = jUpload.getString("secure_url");
             } else {
                 System.out.println(response.code() + " " + response.message());
@@ -206,7 +207,8 @@ public class LineBotController
         return uploadURL;
     }
     
-    private void pushPoster(String sourceId, String poster_url){
+    //Method for push image to user
+    private void pushImage(String sourceId, String poster_url){
         ImageMessage imageMessage = new ImageMessage(poster_url, poster_url);
         PushMessage pushMessage = new PushMessage(sourceId,imageMessage);
         try {
@@ -222,6 +224,7 @@ public class LineBotController
         }
     }
     
+    //Method for leave group or room
     private void leaveGR(String id, String type){
         try {
             if (type.equals("group")){

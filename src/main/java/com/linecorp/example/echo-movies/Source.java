@@ -1,4 +1,4 @@
-package com.linecorp.example.linebot;
+package com.linecorp.example.echo-movies;
 
 public class Source {
     public String userId;

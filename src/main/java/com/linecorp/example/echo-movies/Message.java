@@ -1,4 +1,4 @@
-package com.linecorp.example.linebot;
+package com.linecorp.example.echo-movies;
 
 public class Message {
     public String type;
