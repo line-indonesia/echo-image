@@ -15,7 +15,7 @@ This repository demonstrates how to create a bot application with **Spring frame
 
 * Add `application.properties` file in *src/main/resources* directory, and fill it with your Cloudinary's cloud name, api key, and api secret, like the following:
 
-	```xml
+	```ini
 com.cloudinary.cloud_name=<your_cloud_name>
 com.cloudinary.api_key=<your_api_key>
 com.cloudinary.api_secret=<your_api_secret>
