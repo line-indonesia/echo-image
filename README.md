@@ -30,31 +30,31 @@ com.cloudinary.api_secret=<your_api_secret>
                 .build()
                 .getMessageContent("<messageId>")
                 .execute();
-if (response.isSuccessful()) {
-    ResponseBody content = response.body();
-    InputStream imageStream = content.byteStream();
-    Path path = Files.createTempFile(messageId, ".jpg");
-	try (FileOutputStream out = new FileOutputStream(path.toFile())) {
-    	byte[] buffer = new byte[1024];
-       int len;
-       while ((len = imageStream.read(buffer)) != -1) {
-       	out.write(buffer, 0, len);
-       }
-     } catch (Exception e) {
+	if (response.isSuccessful()) {
+    		ResponseBody content = response.body();
+    		InputStream imageStream = content.byteStream();
+    		Path path = Files.createTempFile(messageId, ".jpg");
+		try (FileOutputStream out = new FileOutputStream(path.toFile())) {
+    			byte[] buffer = new byte[1024];
+       			int len;
+       			while ((len = imageStream.read(buffer)) != -1) {
+       				out.write(buffer, 0, len);
+       			}
+     		} catch (Exception e) {
      		System.out.println("Exception is raised ");
-     }
-} else {
-    System.out.println(response.code() + " " + response.message());
-}
+     		}
+	} else {
+    	System.out.println(response.code() + " " + response.message());
+	}
 	```
 
 * Store at Cloudinary
 
 	```java
 	Map uploadResult = cloudinary.uploader().upload(path.toFile(), ObjectUtils.emptyMap());
-    System.out.println(uploadResult.toString());
-    JSONObject jUpload = new JSONObject(uploadResult);
-    uploadURL = jUpload.getString("secure_url");
+    	System.out.println(uploadResult.toString());
+    	JSONObject jUpload = new JSONObject(uploadResult);
+    	uploadURL = jUpload.getString("secure_url");
 	```
 	**INFO** Image needs to be store because LINE Messaging API needs image URL to push or reply the image message to user.
 	**INFO** URL must be secure **(HTTPS)**, Therefore user *secure_url* in JSON Object response from cloudinary
@@ -67,7 +67,7 @@ if (response.isSuccessful()) {
             .build()
             .pushMessage(pushMessage)
             .execute();
-   System.out.println(response.code() + " " + response.message());
+   	System.out.println(response.code() + " " + response.message());
 	```
 
 
