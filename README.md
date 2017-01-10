@@ -54,9 +54,9 @@ com.linecorp.channel_access_token=<your_channel_access_token>
 
 	```java
 	Map uploadResult = cloudinary.uploader().upload(path.toFile(), ObjectUtils.emptyMap());
-    	System.out.println(uploadResult.toString());
-    	JSONObject jUpload = new JSONObject(uploadResult);
-    	uploadURL = jUpload.getString("secure_url");
+    System.out.println(uploadResult.toString());
+    JSONObject jUpload = new JSONObject(uploadResult);
+    uploadURL = jUpload.getString("secure_url");
 	```
 	**INFO** Image needs to be store because LINE Messaging API needs image URL to push or reply the image message to user.
 	**INFO** URL must be secure **(HTTPS)**, Therefore user *secure_url* in JSON Object response from cloudinary
