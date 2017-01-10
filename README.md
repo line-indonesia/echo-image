@@ -21,7 +21,6 @@ com.cloudinary.api_key=<your_api_key>
 com.cloudinary.api_secret=<your_api_secret>
 com.linecorp.channel_secret=<your_channel_secret>
 com.linecorp.channel_access_token=<your_channel_access_token>
-
 ```
 
 * Get user's image
