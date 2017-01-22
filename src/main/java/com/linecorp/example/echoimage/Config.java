@@ -1,5 +1,5 @@
 
-package com.linecorp.example.echomovies;
+package com.linecorp.example.echoimage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;

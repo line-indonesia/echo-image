@@ -1,5 +1,5 @@
 
-package com.linecorp.example.echomovies;
+package com.linecorp.example.echoimage;
 
 import java.io.BufferedReader;
 import java.io.IOException;

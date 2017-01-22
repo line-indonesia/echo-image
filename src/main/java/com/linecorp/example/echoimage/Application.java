@@ -1,5 +1,5 @@
 
-package com.linecorp.example.echomovies;
+package com.linecorp.example.echoimage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

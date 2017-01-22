@@ -1,4 +1,4 @@
-package com.linecorp.example.echomovies;
+package com.linecorp.example.echoimage;
 
 public class Events {
     public String type;
